@@ -5,7 +5,7 @@
 include_HEADERS = \
     fty_asset_activator.h \
     fty_common_asset.h \
-    fty_asset_activator.h \
+    libfty_asset_activator.h \
     fty_asset_activator_library.h
 
 

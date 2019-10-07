@@ -79,13 +79,13 @@
 //  These classes are stable or legacy and built in all releases
 typedef struct _fty_common_asset_t fty_common_asset_t;
 #define FTY_COMMON_ASSET_T_DEFINED
-typedef struct _fty_asset_activator_t fty_asset_activator_t;
-#define FTY_ASSET_ACTIVATOR_T_DEFINED
+typedef struct _libfty_asset_activator_t libfty_asset_activator_t;
+#define LIBFTY_ASSET_ACTIVATOR_T_DEFINED
 
 
 //  Public classes, each with its own header file
 #include "fty_common_asset.h"
-#include "fty_asset_activator.h"
+#include "libfty_asset_activator.h"
 
 #ifdef FTY_ASSET_ACTIVATOR_BUILD_DRAFT_API
 

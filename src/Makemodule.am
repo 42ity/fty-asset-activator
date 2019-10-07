@@ -14,7 +14,7 @@ pkgconfig_DATA = src/libfty_asset_activator.pc
 
 src_libfty_asset_activator_la_SOURCES = \
     src/fty_common_asset.cc \
-    src/fty_asset_activator.cc \
+    src/libfty_asset_activator.cc \
     src/platform.h
 
 if ENABLE_DRAFTS
