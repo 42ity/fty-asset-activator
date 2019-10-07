@@ -26,5 +26,9 @@
 #include "fty_asset_activator_library.h"
 
 //  Add your own public definitions here, if you need them
+#define IS_ASSET_ACTIVE     "GET_IS_ASSET_ACTIVE"
+#define ACTIVATE_ASSET      "ACTIVATE_ASSET"
+#define DEACTIVATE_ASSET    "DEACTIVATE_ASSET"
+#define IS_ASSET_ACTIVABLE  "GET_IS_ASSET_ACTIVABLE"
 
 #endif

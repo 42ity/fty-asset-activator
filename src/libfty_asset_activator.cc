@@ -28,39 +28,69 @@
 
 #include "fty_asset_activator_classes.h"
 
-//  Structure of our class
+namespace fty {
 
-struct _libfty_asset_activator_t {
-    int filler;     //  Declare class properties here
-};
+    AssetActivator::AssetActivator(fty::SyncClient & requestClient)
+        : m_requestClient(requestClient)
+    {}
 
+    bool AssetActivator::isActive(const std::string & asset_json)
+    {
+        std::vector<std::string> payload;
+        payload = sendCommand (IS_ASSET_ACTIVE, {asset_json});
 
-//  --------------------------------------------------------------------------
-//  Create a new libfty_asset_activator
-
-libfty_asset_activator_t *
-libfty_asset_activator_new (void)
-{
-    libfty_asset_activator_t *self = (libfty_asset_activator_t *) zmalloc (sizeof (libfty_asset_activator_t));
-    assert (self);
-    //  Initialize class properties here
-    return self;
-}
-
-
-//  --------------------------------------------------------------------------
-//  Destroy the libfty_asset_activator
-
-void
-libfty_asset_activator_destroy (libfty_asset_activator_t **self_p)
-{
-    assert (self_p);
-    if (*self_p) {
-        libfty_asset_activator_t *self = *self_p;
-        //  Free class properties here
-        //  Free object itself
-        free (self);
-        *self_p = NULL;
+        bool rv;
+        std::istringstream isActiveStr (payload[0]);
+        log_debug ("asset is active = %s", payload[0].c_str ());
+        isActiveStr >> std::boolalpha >> rv;
+        return rv;
     }
-}
 
+    void AssetActivator::activate(const std::string & asset_json)
+    {
+        std::vector<std::string> payload;
+        payload = sendCommand (ACTIVATE_ASSET, {asset_json});
+    }
+
+    void AssetActivator::deactivate(const std::string & asset_json)
+    {
+        std::vector<std::string> payload;
+        payload = sendCommand (DEACTIVATE_ASSET, {asset_json});
+    }
+
+    bool AssetActivator::isActivable(const std::string & asset_json)
+    {
+        std::vector<std::string> payload;
+        payload = sendCommand (IS_ASSET_ACTIVABLE, {asset_json});
+
+        bool rv;
+        std::istringstream isActivableStr (payload[0]);
+        log_debug ("asset is activable = %s", payload[0].c_str ());
+        isActivableStr >> std::boolalpha >> rv;
+        return rv;
+    }
+
+    std::vector<std::string> AssetActivator::sendCommand(const std::string & command, const std::vector<std::string> & frames) const
+    {
+        std::vector<std::string> payload = {command};
+        std::copy(frames.begin(), frames.end(), back_inserter(payload));
+
+        std::vector<std::string> receivedFrames = m_requestClient.syncRequestWithReply(payload);
+
+        //check if the first frame we get is an error
+        if(receivedFrames[0] == "ERROR")
+        {
+          //It's an error and we will throw directly the exceptions
+          if(receivedFrames.size() == 2)
+          {
+            throw std::runtime_error(receivedFrames.at(1));
+          }
+          else
+          {
+            throw std::runtime_error("Missing data for error");
+          }
+        }
+
+        return receivedFrames;
+    }
+} // end namespace
