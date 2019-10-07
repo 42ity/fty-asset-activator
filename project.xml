@@ -189,6 +189,6 @@
     </use>
 
     <class name = "fty_common_asset" state = "stable"> General asset representation </class>
-    <class name = "fty_asset_activator" state = "stable" selftest="0"> Interface for fty-asset-activator library </class>
+    <class name = "libfty_asset_activator" state = "stable" selftest="0"> Interface for fty-asset-activator library </class>
 
 </project>

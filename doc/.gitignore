@@ -13,8 +13,8 @@
 # Ignore the source doc texts generated from program sources
 fty_common_asset.txt
 fty_common_asset.doc
-fty_asset_activator.txt
-fty_asset_activator.doc
+libfty_asset_activator.txt
+libfty_asset_activator.doc
 
 # Make sure to track the manually maintained project description
 !*.adoc
