@@ -80,17 +80,18 @@ namespace fty {
         //check if the first frame we get is an error
         if(receivedFrames[0] == "ERROR")
         {
-          //It's an error and we will throw directly the exceptions
-          if(receivedFrames.size() == 2)
-          {
-            throw std::runtime_error(receivedFrames.at(1));
-          }
-          else
-          {
-            throw std::runtime_error("Missing data for error");
-          }
+            //It's an error and we will throw directly the exceptions
+            if(receivedFrames.size() == 2)
+            {
+                throw std::runtime_error(receivedFrames.at(1));
+            }
+            else
+            {
+                throw std::runtime_error("Missing data for error");
+            }
         }
 
         return receivedFrames;
     }
+
 } // end namespace
