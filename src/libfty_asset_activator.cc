@@ -37,7 +37,15 @@ namespace fty {
     bool AssetActivator::isActive(const std::string & asset_json)
     {
         std::vector<std::string> payload;
-        payload = sendCommand (IS_ASSET_ACTIVE, {asset_json});
+        try
+        {
+            payload = sendCommand (IS_ASSET_ACTIVE, {asset_json});
+        }
+        catch (const std::exception& e)
+        {
+            log_info ("asset activator returned '%s', treated as false", e.what());
+            return false;
+        }
 
         bool rv;
         std::istringstream isActiveStr (payload[0]);
@@ -61,7 +69,16 @@ namespace fty {
     bool AssetActivator::isActivable(const std::string & asset_json)
     {
         std::vector<std::string> payload;
-        payload = sendCommand (IS_ASSET_ACTIVABLE, {asset_json});
+
+        try
+        {
+            payload = sendCommand (IS_ASSET_ACTIVABLE, {asset_json});
+        }
+        catch (const std::exception& e)
+        {
+            log_info ("asset activator returned '%s', treated as false", e.what());
+            return false;
+        }
 
         bool rv;
         std::istringstream isActivableStr (payload[0]);
