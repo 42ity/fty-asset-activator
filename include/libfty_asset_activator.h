@@ -22,24 +22,28 @@
 #ifndef LIBFTY_ASSET_ACTIVATOR_H_INCLUDED
 #define LIBFTY_ASSET_ACTIVATOR_H_INCLUDED
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+namespace fty
+{
+    class AssetActivator
+    {
+    public:
+        /**
+         * @brief Construct a new Accessor object
+         *
+         * @param Object implementing fty::SyncClient
+         */
+        explicit AssetActivator(fty::SyncClient & requestClient);
 
-//  @interface
-//  Create a new libfty_asset_activator
-FTY_ASSET_ACTIVATOR_EXPORT libfty_asset_activator_t *
-    libfty_asset_activator_new (void);
+        bool isActive (const std::string& assetJson);
+        void activate (const std::string& assetJson);
+        void deactivate (const std::string& assetJson);
+        bool isActivable (const std::string& assetJson);
 
-//  Destroy the libfty_asset_activator
-FTY_ASSET_ACTIVATOR_EXPORT void
-    libfty_asset_activator_destroy (libfty_asset_activator_t **self_p);
+    private:
+        fty::SyncClient & m_requestClient;
 
-
-//  @end
-
-#ifdef __cplusplus
+        std::vector<std::string> sendCommand(const std::string & command, const std::vector<std::string> & frames) const;
+    };
 }
-#endif
 
 #endif
