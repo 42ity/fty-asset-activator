@@ -62,8 +62,6 @@ namespace fty {
 
     void BasicAsset::deserialize (const cxxtools::SerializationInfo & si)
     {
-        si.getMember("id") >>= id_;
-
         std::string status_str;
         si.getMember("status") >>= status_str;
         status_ = stringToStatus (status_str);
@@ -72,6 +70,15 @@ namespace fty {
         si.getMember("type") >>= type_str;
         si.getMember("sub_type") >>= subtype_str;
         type_subtype_ = std::make_pair (stringToType (type_str), stringToSubtype (subtype_str));
+
+        if (si.findMember ("id"))
+        {
+            si.getMember("id") >>= id_;
+        }
+        else // use type as preliminary ID, as is done elsewhere
+        {
+            id_ = type_str;
+        }
     }
 
     void BasicAsset::serialize (cxxtools::SerializationInfo & si)
@@ -611,13 +618,16 @@ namespace fty {
     {
         ExtendedAsset::deserialize (si);
 
-        const cxxtools::SerializationInfo auxSi = si.getMember("aux");
-        for (const auto oneElement : auxSi)
+        if (si.findMember ("aux"))
         {
-            auto key = oneElement.name();
-            std::string value;
-            oneElement >>= value;
-            aux_[key] = value;
+            const cxxtools::SerializationInfo auxSi = si.getMember("aux");
+            for (const auto oneElement : auxSi)
+            {
+                auto key = oneElement.name();
+                std::string value;
+                oneElement >>= value;
+                aux_[key] = value;
+            }
         }
 
         const cxxtools::SerializationInfo extSi = si.getMember("ext");
