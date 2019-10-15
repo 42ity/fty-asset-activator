@@ -75,9 +75,16 @@ namespace fty {
         {
             si.getMember("id") >>= id_;
         }
-        else // use type as preliminary ID, as is done elsewhere
+        else // use type/subtype as preliminary ID, as is done elsewhere
         {
-            id_ = type_str;
+            if (type_str == "device")
+            {
+                id_ = subtype_str;
+            }
+            else
+            {
+                id_ = type_str;
+            }
         }
     }
 
@@ -408,7 +415,7 @@ namespace fty {
             return Subtype_NutanixPrismGateway;
         } else if (subtype == "nutanixvirtualizationmachine") {
             return Subtype_NutanixVirtualizationMachine;
-        } else if (subtype == "n_a" || subtype == "N_A") {
+        } else if (subtype == "n_a" || subtype == "N_A" || subtype.empty()) {
             return Subtype_N_A;
         } else if (subtype == "other") {
             return Subtype_Other;
@@ -416,7 +423,7 @@ namespace fty {
             return Subtype_PatchPanel;
         } else if (subtype == "pdu") {
             return Subtype_PDU;
-        } else if (subtype == "rackcontroller") {
+        } else if (subtype == "rackcontroller" || subtype == "rack controller") {
             return Subtype_RackController;
         } else if (subtype == "router") {
             return Subtype_Router;
@@ -630,13 +637,16 @@ namespace fty {
             }
         }
 
-        const cxxtools::SerializationInfo extSi = si.getMember("ext");
-        for (const auto oneElement : extSi)
+        if (si.findMember ("ext"))
         {
-            auto key = oneElement.name();
-            std::string value;
-            oneElement >>= value;
-            ext_[key] = value;
+            const cxxtools::SerializationInfo extSi = si.getMember("ext");
+            for (const auto oneElement : extSi)
+            {
+                auto key = oneElement.name();
+                std::string value;
+                oneElement >>= value;
+                ext_[key] = value;
+            }
         }
     }
 
