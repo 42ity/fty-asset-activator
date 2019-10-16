@@ -318,6 +318,8 @@ namespace fty {
                 return "sensorgpio";
             case Subtype_Server:
                 return "server";
+            case Subtype_Sink:
+                return "sink";
             case Subtype_Storage:
                 return "storage";
             case Subtype_STS:
@@ -433,6 +435,8 @@ namespace fty {
             return Subtype_SensorGPIO;
         } else if (subtype == "server") {
             return Subtype_Server;
+        } else if (subtype == "sink") {
+            return Subtype_Sink;
         } else if (subtype == "storage") {
             return Subtype_Storage;
         } else if (subtype == "sts") {

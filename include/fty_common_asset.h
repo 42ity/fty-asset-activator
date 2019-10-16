@@ -56,7 +56,7 @@ namespace fty
                 Subtype_NetAppServer,
                 Subtype_NutanixCluster, Subtype_NutanixNode, Subtype_NutanixPrismGateway, Subtype_NutanixVirtualizationMachine,
                 Subtype_N_A, Subtype_Other, Subtype_PatchPanel, Subtype_PDU, Subtype_RackController, Subtype_Router,
-                Subtype_Sensor, Subtype_SensorGPIO, Subtype_Server, Subtype_Storage, Subtype_STS, Subtype_Switch, Subtype_UPS,
+                Subtype_Sensor, Subtype_SensorGPIO, Subtype_Server, Subtype_Sink, Subtype_Storage, Subtype_STS, Subtype_Switch, Subtype_UPS,
                 Subtype_VM,
                 Subtype_VMWareCluster, Subtype_VMWareESXI, Subtype_VMWareStandaloneESXI, Subtype_VMWareTask, Subtype_VMWareVApp,
                 Subtype_VMWareVCenter, Subtype_VMWareVM
