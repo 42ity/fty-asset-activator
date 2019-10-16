@@ -63,11 +63,33 @@ namespace fty {
     void BasicAsset::deserialize (const cxxtools::SerializationInfo & si)
     {
         std::string status_str;
+        if (!si.findMember ("status"))
+        {
+            throw std::runtime_error("status");
+        }
         si.getMember("status") >>= status_str;
+        if (status_str.empty())
+        {
+            throw std::runtime_error("status");
+        }
+
         status_ = stringToStatus (status_str);
+
+        if (!si.findMember ("type"))
+        {
+            throw std::runtime_error("type");
+        }
+        if (!si.findMember ("sub_type"))
+        {
+            throw std::runtime_error("sub_type");
+        }
 
         std::string type_str, subtype_str;
         si.getMember("type") >>= type_str;
+        if (type_str.empty())
+        {
+            throw std::runtime_error("type");
+        }
         si.getMember("sub_type") >>= subtype_str;
         type_subtype_ = std::make_pair (stringToType (type_str), stringToSubtype (subtype_str));
 
@@ -528,10 +550,22 @@ namespace fty {
         BasicAsset::deserialize (si);
         si.getMember("name") >>= name_;
 
+        if (!si.findMember ("priority"))
+        {
+            throw std::runtime_error("priority");
+        }
         std::string priority_str;
         si.getMember("priority") >>= priority_str;
+        if (priority_str.empty())
+        {
+            throw std::runtime_error("priority");
+        }
         this->setPriority (priority_str);
 
+        if (!si.findMember ("location"))
+        {
+            throw std::runtime_error("location");
+        }
         si.getMember("location") >>= parent_id_;
     }
 
