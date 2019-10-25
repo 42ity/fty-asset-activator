@@ -62,16 +62,52 @@ namespace fty {
 
     void BasicAsset::deserialize (const cxxtools::SerializationInfo & si)
     {
-        si.getMember("id") >>= id_;
-
         std::string status_str;
+        if (!si.findMember ("status"))
+        {
+            throw std::runtime_error("status");
+        }
         si.getMember("status") >>= status_str;
+        if (status_str.empty())
+        {
+            throw std::runtime_error("status");
+        }
+
         status_ = stringToStatus (status_str);
+
+        if (!si.findMember ("type"))
+        {
+            throw std::runtime_error("type");
+        }
+        if (!si.findMember ("sub_type"))
+        {
+            throw std::runtime_error("sub_type");
+        }
 
         std::string type_str, subtype_str;
         si.getMember("type") >>= type_str;
+        if (type_str.empty())
+        {
+            throw std::runtime_error("type");
+        }
         si.getMember("sub_type") >>= subtype_str;
         type_subtype_ = std::make_pair (stringToType (type_str), stringToSubtype (subtype_str));
+
+        if (si.findMember ("id"))
+        {
+            si.getMember("id") >>= id_;
+        }
+        else // use type/subtype as preliminary ID, as is done elsewhere
+        {
+            if (type_str == "device")
+            {
+                id_ = subtype_str;
+            }
+            else
+            {
+                id_ = type_str;
+            }
+        }
     }
 
     void BasicAsset::serialize (cxxtools::SerializationInfo & si)
@@ -304,6 +340,8 @@ namespace fty {
                 return "sensorgpio";
             case Subtype_Server:
                 return "server";
+            case Subtype_Sink:
+                return "sink";
             case Subtype_Storage:
                 return "storage";
             case Subtype_STS:
@@ -401,7 +439,7 @@ namespace fty {
             return Subtype_NutanixPrismGateway;
         } else if (subtype == "nutanixvirtualizationmachine") {
             return Subtype_NutanixVirtualizationMachine;
-        } else if (subtype == "n_a" || subtype == "N_A") {
+        } else if (subtype == "n_a" || subtype == "N_A" || subtype.empty()) {
             return Subtype_N_A;
         } else if (subtype == "other") {
             return Subtype_Other;
@@ -409,7 +447,7 @@ namespace fty {
             return Subtype_PatchPanel;
         } else if (subtype == "pdu") {
             return Subtype_PDU;
-        } else if (subtype == "rackcontroller") {
+        } else if (subtype == "rackcontroller" || subtype == "rack controller") {
             return Subtype_RackController;
         } else if (subtype == "router") {
             return Subtype_Router;
@@ -419,6 +457,8 @@ namespace fty {
             return Subtype_SensorGPIO;
         } else if (subtype == "server") {
             return Subtype_Server;
+        } else if (subtype == "sink") {
+            return Subtype_Sink;
         } else if (subtype == "storage") {
             return Subtype_Storage;
         } else if (subtype == "sts") {
@@ -510,10 +550,22 @@ namespace fty {
         BasicAsset::deserialize (si);
         si.getMember("name") >>= name_;
 
+        if (!si.findMember ("priority"))
+        {
+            throw std::runtime_error("priority");
+        }
         std::string priority_str;
         si.getMember("priority") >>= priority_str;
+        if (priority_str.empty())
+        {
+            throw std::runtime_error("priority");
+        }
         this->setPriority (priority_str);
 
+        if (!si.findMember ("location"))
+        {
+            throw std::runtime_error("location");
+        }
         si.getMember("location") >>= parent_id_;
     }
 
@@ -611,22 +663,28 @@ namespace fty {
     {
         ExtendedAsset::deserialize (si);
 
-        const cxxtools::SerializationInfo auxSi = si.getMember("aux");
-        for (const auto oneElement : auxSi)
+        if (si.findMember ("aux"))
         {
-            auto key = oneElement.name();
-            std::string value;
-            oneElement >>= value;
-            aux_[key] = value;
+            const cxxtools::SerializationInfo auxSi = si.getMember("aux");
+            for (const auto oneElement : auxSi)
+            {
+                auto key = oneElement.name();
+                std::string value;
+                oneElement >>= value;
+                aux_[key] = value;
+            }
         }
 
-        const cxxtools::SerializationInfo extSi = si.getMember("ext");
-        for (const auto oneElement : extSi)
+        if (si.findMember ("ext"))
         {
-            auto key = oneElement.name();
-            std::string value;
-            oneElement >>= value;
-            ext_[key] = value;
+            const cxxtools::SerializationInfo extSi = si.getMember("ext");
+            for (const auto oneElement : extSi)
+            {
+                auto key = oneElement.name();
+                std::string value;
+                oneElement >>= value;
+                ext_[key] = value;
+            }
         }
     }
 
