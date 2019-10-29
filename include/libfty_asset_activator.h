@@ -35,9 +35,13 @@ namespace fty
         explicit AssetActivator(fty::SyncClient & requestClient);
 
         bool isActive (const std::string& assetJson);
+        bool isActive (fty::FullAsset& asset);
         void activate (const std::string& assetJson);
+        void activate (fty::FullAsset& asset);
         void deactivate (const std::string& assetJson);
+        void deactivate (fty::FullAsset& asset);
         bool isActivable (const std::string& assetJson);
+        bool isActivable (fty::FullAsset& asset);
 
     private:
         fty::SyncClient & m_requestClient;

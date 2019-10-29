@@ -54,16 +54,31 @@ namespace fty {
         return rv;
     }
 
+    bool AssetActivator::isActive(fty::FullAsset &asset)
+    {
+        return isActive (asset.toJson());
+    }
+
     void AssetActivator::activate(const std::string & asset_json)
     {
         std::vector<std::string> payload;
         payload = sendCommand (ACTIVATE_ASSET, {asset_json});
     }
 
+    void AssetActivator::activate(fty::FullAsset& asset)
+    {
+        activate (asset.toJson());
+    }
+
     void AssetActivator::deactivate(const std::string & asset_json)
     {
         std::vector<std::string> payload;
         payload = sendCommand (DEACTIVATE_ASSET, {asset_json});
+    }
+
+    void AssetActivator::deactivate(fty::FullAsset& asset)
+    {
+        deactivate (asset.toJson());
     }
 
     bool AssetActivator::isActivable(const std::string & asset_json)
@@ -85,6 +100,11 @@ namespace fty {
         log_debug ("asset is activable = %s", payload[0].c_str ());
         isActivableStr >> std::boolalpha >> rv;
         return rv;
+    }
+
+    bool AssetActivator::isActivable(fty::FullAsset& asset)
+    {
+        return isActivable (asset.toJson());
     }
 
     std::vector<std::string> AssetActivator::sendCommand(const std::string & command, const std::vector<std::string> & frames) const

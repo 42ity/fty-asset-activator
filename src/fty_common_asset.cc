@@ -511,6 +511,16 @@ namespace fty {
         }
     }
 
+    std::string BasicAsset::toJson()
+    {
+        cxxtools::SerializationInfo rootSi;
+        rootSi <<= *this;
+        std::ostringstream assetJsonStream;
+        cxxtools::JsonSerializer serializer (assetJsonStream);
+        serializer.serialize (rootSi).finish();
+        return assetJsonStream.str();
+    }
+
     bool BasicAsset::isPowerAsset () const
     {
         Type type = type_subtype_.first;
@@ -578,6 +588,16 @@ namespace fty {
         si.addMember("priority") <<= priority_str;
 
         si.addMember("location") <<= parent_id_;
+    }
+
+    std::string ExtendedAsset::toJson()
+    {
+        cxxtools::SerializationInfo rootSi;
+        rootSi <<= *this;
+        std::ostringstream assetJsonStream;
+        cxxtools::JsonSerializer serializer (assetJsonStream);
+        serializer.serialize (rootSi).finish();
+        return assetJsonStream.str();
     }
 
     bool ExtendedAsset::operator == (const ExtendedAsset &asset) const
@@ -713,6 +733,16 @@ namespace fty {
             keyValueObject.setCategory (cxxtools::SerializationInfo::Object);
             keyValueObject.setValue (value);
         }
+    }
+
+    std::string FullAsset::toJson()
+    {
+        cxxtools::SerializationInfo rootSi;
+        rootSi <<= *this;
+        std::ostringstream assetJsonStream;
+        cxxtools::JsonSerializer serializer (assetJsonStream);
+        serializer.serialize (rootSi).finish();
+        return assetJsonStream.str();
     }
 
     bool FullAsset::operator == (const FullAsset &asset) const
