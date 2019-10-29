@@ -701,9 +701,29 @@ namespace fty {
             for (const auto oneElement : extSi)
             {
                 auto key = oneElement.name();
-                std::string value;
-                oneElement >>= value;
-                ext_[key] = value;
+                // ext from UI behaves as an object of objects with empty 1st level keys
+                if (key.empty())
+                {
+                    for (const auto innerElement : oneElement)
+                    {
+                        auto innerKey = innerElement.name();
+                        log_debug ("inner key = %s", innerKey.c_str ());
+                        // only DB is interested in read_only attribute
+                        if (innerKey != "read_only")
+                        {
+                            std::string value;
+                            innerElement >>= value;
+                            ext_[innerKey] = value;
+                        }
+                    }
+                }
+                else
+                {
+                    std::string value;
+                    oneElement >>= value;
+                    log_debug ("key = %s, value = %s", key.c_str (), value.c_str ());
+                    ext_[key] = value;
+                }
             }
         }
     }
