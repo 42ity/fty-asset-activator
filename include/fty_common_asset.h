@@ -110,8 +110,8 @@ namespace fty
             void setSubtype (const std::string & subtype);
 
             void deserialize (const cxxtools::SerializationInfo & si);
-            void serialize (cxxtools::SerializationInfo & si);
-            std::string toJson();
+            void serialize (cxxtools::SerializationInfo & si) const;
+            std::string toJson() const;
 
             bool isPowerAsset () const;
     };
@@ -154,8 +154,8 @@ namespace fty
             void setPriority (const std::string & priority);
 
             void deserialize (const cxxtools::SerializationInfo & si);
-            void serialize (cxxtools::SerializationInfo & si);
-            std::string toJson();
+            void serialize (cxxtools::SerializationInfo & si) const;
+            std::string toJson() const;
     };
 
     /// provide full details about the asset without specifying asset type
@@ -198,8 +198,8 @@ namespace fty
             void setExtItem (const std::string &key, const std::string &value);
 
             void deserialize (const cxxtools::SerializationInfo & si);
-            void serialize (cxxtools::SerializationInfo & si);
-            std::string toJson();
+            void serialize (cxxtools::SerializationInfo & si) const;
+            std::string toJson() const;
     };
 
     std::unique_ptr<BasicAsset>
@@ -219,11 +219,11 @@ namespace fty
 
     void operator>>= (const cxxtools::SerializationInfo & si, fty::FullAsset & asset);
 
-    void operator<<= (cxxtools::SerializationInfo & si, fty::BasicAsset & asset);
+    void operator<<= (cxxtools::SerializationInfo & si, const fty::BasicAsset & asset);
 
-    void operator<<= (cxxtools::SerializationInfo & si, fty::ExtendedAsset & asset);
+    void operator<<= (cxxtools::SerializationInfo & si, const fty::ExtendedAsset & asset);
 
-    void operator<<= (cxxtools::SerializationInfo & si, fty::FullAsset & asset);
+    void operator<<= (cxxtools::SerializationInfo & si, const fty::FullAsset & asset);
 
 void fty_common_asset_test(bool verbose);
 #endif

@@ -34,7 +34,7 @@ namespace fty {
         : m_requestClient(requestClient)
     {}
 
-    bool AssetActivator::isActive(const std::string & asset_json)
+    bool AssetActivator::isActive(const std::string & asset_json) const
     {
         std::vector<std::string> payload;
         try
@@ -54,34 +54,34 @@ namespace fty {
         return rv;
     }
 
-    bool AssetActivator::isActive(fty::FullAsset &asset)
+    bool AssetActivator::isActive (const fty::FullAsset &asset) const
     {
         return isActive (asset.toJson());
     }
 
-    void AssetActivator::activate(const std::string & asset_json)
+    void AssetActivator::activate(const std::string & asset_json) const
     {
         std::vector<std::string> payload;
         payload = sendCommand (ACTIVATE_ASSET, {asset_json});
     }
 
-    void AssetActivator::activate(fty::FullAsset& asset)
+    void AssetActivator::activate (const fty::FullAsset& asset) const
     {
         activate (asset.toJson());
     }
 
-    void AssetActivator::deactivate(const std::string & asset_json)
+    void AssetActivator::deactivate(const std::string & asset_json) const
     {
         std::vector<std::string> payload;
         payload = sendCommand (DEACTIVATE_ASSET, {asset_json});
     }
 
-    void AssetActivator::deactivate(fty::FullAsset& asset)
+    void AssetActivator::deactivate (const fty::FullAsset& asset) const
     {
         deactivate (asset.toJson());
     }
 
-    bool AssetActivator::isActivable(const std::string & asset_json)
+    bool AssetActivator::isActivable(const std::string & asset_json) const
     {
         std::vector<std::string> payload;
 
@@ -102,7 +102,7 @@ namespace fty {
         return rv;
     }
 
-    bool AssetActivator::isActivable(fty::FullAsset& asset)
+    bool AssetActivator::isActivable (const fty::FullAsset& asset) const
     {
         return isActivable (asset.toJson());
     }
