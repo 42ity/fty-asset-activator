@@ -110,7 +110,7 @@ namespace fty {
         }
     }
 
-    void BasicAsset::serialize (cxxtools::SerializationInfo & si)
+    void BasicAsset::serialize (cxxtools::SerializationInfo & si) const
     {
         si.addMember("id") <<= id_;
 
@@ -507,8 +507,18 @@ namespace fty {
         } else if (status == "nonactive") {
             return Status::Nonactive;
         } else {
-            throw std::invalid_argument ("status is not known value");
+            throw std::invalid_argument (TRANSLATE_ME ("status is not known value"));
         }
+    }
+
+    std::string BasicAsset::toJson() const
+    {
+        cxxtools::SerializationInfo rootSi;
+        rootSi <<= *this;
+        std::ostringstream assetJsonStream;
+        cxxtools::JsonSerializer serializer (assetJsonStream);
+        serializer.serialize (rootSi).finish();
+        return assetJsonStream.str();
     }
 
     bool BasicAsset::isPowerAsset () const
@@ -569,7 +579,7 @@ namespace fty {
         si.getMember("location") >>= parent_id_;
     }
 
-    void ExtendedAsset::serialize (cxxtools::SerializationInfo & si)
+    void ExtendedAsset::serialize (cxxtools::SerializationInfo & si) const
     {
         BasicAsset::serialize (si);
         si.addMember("name") <<= name_;
@@ -578,6 +588,16 @@ namespace fty {
         si.addMember("priority") <<= priority_str;
 
         si.addMember("location") <<= parent_id_;
+    }
+
+    std::string ExtendedAsset::toJson() const
+    {
+        cxxtools::SerializationInfo rootSi;
+        rootSi <<= *this;
+        std::ostringstream assetJsonStream;
+        cxxtools::JsonSerializer serializer (assetJsonStream);
+        serializer.serialize (rootSi).finish();
+        return assetJsonStream.str();
     }
 
     bool ExtendedAsset::operator == (const ExtendedAsset &asset) const
@@ -681,14 +701,34 @@ namespace fty {
             for (const auto oneElement : extSi)
             {
                 auto key = oneElement.name();
-                std::string value;
-                oneElement >>= value;
-                ext_[key] = value;
+                // ext from UI behaves as an object of objects with empty 1st level keys
+                if (key.empty())
+                {
+                    for (const auto innerElement : oneElement)
+                    {
+                        auto innerKey = innerElement.name();
+                        log_debug ("inner key = %s", innerKey.c_str ());
+                        // only DB is interested in read_only attribute
+                        if (innerKey != "read_only")
+                        {
+                            std::string value;
+                            innerElement >>= value;
+                            ext_[innerKey] = value;
+                        }
+                    }
+                }
+                else
+                {
+                    std::string value;
+                    oneElement >>= value;
+                    log_debug ("key = %s, value = %s", key.c_str (), value.c_str ());
+                    ext_[key] = value;
+                }
             }
         }
     }
 
-    void FullAsset::serialize (cxxtools::SerializationInfo & si)
+    void FullAsset::serialize (cxxtools::SerializationInfo & si) const
     {
         ExtendedAsset::serialize (si);
 
@@ -713,6 +753,16 @@ namespace fty {
             keyValueObject.setCategory (cxxtools::SerializationInfo::Object);
             keyValueObject.setValue (value);
         }
+    }
+
+    std::string FullAsset::toJson() const
+    {
+        cxxtools::SerializationInfo rootSi;
+        rootSi <<= *this;
+        std::ostringstream assetJsonStream;
+        cxxtools::JsonSerializer serializer (assetJsonStream);
+        serializer.serialize (rootSi).finish();
+        return assetJsonStream.str();
     }
 
     bool FullAsset::operator == (const FullAsset &asset) const
@@ -848,17 +898,17 @@ namespace fty {
         asset.deserialize (si);
     }
 
-    void operator<<= (cxxtools::SerializationInfo & si, fty::BasicAsset & asset)
+    void operator<<= (cxxtools::SerializationInfo & si, const fty::BasicAsset & asset)
     {
         asset.serialize (si);
     }
 
-    void operator<<= (cxxtools::SerializationInfo & si, fty::ExtendedAsset & asset)
+    void operator<<= (cxxtools::SerializationInfo & si, const fty::ExtendedAsset & asset)
     {
         asset.serialize (si);
     }
 
-    void operator<<= (cxxtools::SerializationInfo & si, fty::FullAsset & asset)
+    void operator<<= (cxxtools::SerializationInfo & si, const fty::FullAsset & asset)
     {
         asset.serialize (si);
     }
