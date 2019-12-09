@@ -34,10 +34,18 @@ namespace fty {
         : m_requestClient(requestClient)
     {}
 
-    bool AssetActivator::isActive(const std::string & asset_json)
+    bool AssetActivator::isActive(const std::string & asset_json) const
     {
         std::vector<std::string> payload;
-        payload = sendCommand (IS_ASSET_ACTIVE, {asset_json});
+        try
+        {
+            payload = sendCommand (IS_ASSET_ACTIVE, {asset_json});
+        }
+        catch (const std::exception& e)
+        {
+            log_info ("asset activator returned '%s', treated as false", e.what());
+            return false;
+        }
 
         bool rv;
         std::istringstream isActiveStr (payload[0]);
@@ -46,28 +54,57 @@ namespace fty {
         return rv;
     }
 
-    void AssetActivator::activate(const std::string & asset_json)
+    bool AssetActivator::isActive (const fty::FullAsset &asset) const
+    {
+        return isActive (asset.toJson());
+    }
+
+    void AssetActivator::activate(const std::string & asset_json) const
     {
         std::vector<std::string> payload;
         payload = sendCommand (ACTIVATE_ASSET, {asset_json});
     }
 
-    void AssetActivator::deactivate(const std::string & asset_json)
+    void AssetActivator::activate (const fty::FullAsset& asset) const
+    {
+        activate (asset.toJson());
+    }
+
+    void AssetActivator::deactivate(const std::string & asset_json) const
     {
         std::vector<std::string> payload;
         payload = sendCommand (DEACTIVATE_ASSET, {asset_json});
     }
 
-    bool AssetActivator::isActivable(const std::string & asset_json)
+    void AssetActivator::deactivate (const fty::FullAsset& asset) const
+    {
+        deactivate (asset.toJson());
+    }
+
+    bool AssetActivator::isActivable(const std::string & asset_json) const
     {
         std::vector<std::string> payload;
-        payload = sendCommand (IS_ASSET_ACTIVABLE, {asset_json});
+
+        try
+        {
+            payload = sendCommand (IS_ASSET_ACTIVABLE, {asset_json});
+        }
+        catch (const std::exception& e)
+        {
+            log_info ("asset activator returned '%s', treated as false", e.what());
+            return false;
+        }
 
         bool rv;
         std::istringstream isActivableStr (payload[0]);
         log_debug ("asset is activable = %s", payload[0].c_str ());
         isActivableStr >> std::boolalpha >> rv;
         return rv;
+    }
+
+    bool AssetActivator::isActivable (const fty::FullAsset& asset) const
+    {
+        return isActivable (asset.toJson());
     }
 
     std::vector<std::string> AssetActivator::sendCommand(const std::string & command, const std::vector<std::string> & frames) const
