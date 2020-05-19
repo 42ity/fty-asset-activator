@@ -24,6 +24,10 @@
 
 #include <cxxtools/serializationinfo.h>
 
+// fwd declaration
+typedef struct _fty_proto_t fty_proto_t;
+
+// clang-format off
 using AttributesMap = std::map<std::string,std::string>;
 
 namespace fty
