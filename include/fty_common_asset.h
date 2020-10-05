@@ -45,7 +45,8 @@ namespace fty
             /// List of valid asset types
             enum Type {
                 Type_Cluster, Type_Datacenter, Type_Device, Type_Group, Type_Hypervisor, Type_Rack, Type_Room, Type_Row,
-                Type_Storage, Type_VApp, Type_VirtuService, Type_VM
+                Type_Storage, Type_VApp, Type_VirtuService, Type_VM,
+                Type_COPS
             };
             /// List of valid asset subtypes
             enum Subtype {
@@ -63,7 +64,8 @@ namespace fty
                 Subtype_Sensor, Subtype_SensorGPIO, Subtype_Server, Subtype_Sink, Subtype_Storage, Subtype_STS, Subtype_Switch, Subtype_UPS,
                 Subtype_VM,
                 Subtype_VMWareCluster, Subtype_VMWareESXI, Subtype_VMWareStandaloneESXI, Subtype_VMWareTask, Subtype_VMWareVApp,
-                Subtype_VMWareVCenter, Subtype_VMWareVM
+                Subtype_VMWareVCenter, Subtype_VMWareVM,
+                Subtype_PCU
             };
         protected:
             /// internal identification string (iname)
