@@ -217,8 +217,10 @@ namespace fty {
                 return "virtuservice";
             case Type_VM:
                 return "vm";
+            case Type_COPS:
+                return "cops";
             default:
-                throw std::invalid_argument ("type is not known value");
+                throw std::invalid_argument ("type id is not known value");
         }
     }
 
@@ -248,6 +250,8 @@ namespace fty {
             return Type_VirtuService;
         } else if (type == "vm") {
             return Type_VM;
+        } else if (type == "cops") {
+            return Type_COPS;
         } else {
             throw std::invalid_argument ("type is not known value");
         }
@@ -366,8 +370,10 @@ namespace fty {
                 return "vmwarevcenter";
             case Subtype_VMWareVM:
                 return "vmwarevm";
+            case Subtype_PCU:
+                return "pcu";
             default:
-                throw std::invalid_argument ("subtype is not known value");
+                throw std::invalid_argument ("subtype id is not known value");
         }
     }
 
@@ -483,6 +489,8 @@ namespace fty {
             return Subtype_VMWareVCenter;
         } else if (subtype == "vmwarevm") {
             return Subtype_VMWareVM;
+        } else if (subtype == "pcu") {
+            return Subtype_PCU;
         } else {
             throw std::invalid_argument ("subtype is not known value");
         }
