@@ -449,7 +449,7 @@ namespace fty {
             return Subtype_N_A;
         } else if (subtype == "other") {
             return Subtype_Other;
-        } else if (subtype == "patchpanel") {
+        } else if (subtype == "patchpanel" || subtype == "patch panel") {
             return Subtype_PatchPanel;
         } else if (subtype == "pdu") {
             return Subtype_PDU;
