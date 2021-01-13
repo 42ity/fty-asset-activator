@@ -23,6 +23,7 @@
 #define FTY_COMMON_ASSET_H_INCLUDED
 
 #include <cxxtools/serializationinfo.h>
+#include <string>
 
 // fwd declaration
 typedef struct _fty_proto_t fty_proto_t;

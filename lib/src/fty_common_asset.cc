@@ -26,12 +26,14 @@
 @end
 */
 
+#include "fty_common_asset.h"
+
 #include <cxxtools/jsonserializer.h>
 #include <cxxtools/jsondeserializer.h>
-#include <fty_common_mlm_utils.h>
-#include <fty_common_asset_types.h>
-
-#include "fty_asset_activator_classes.h"
+#include <fty_common_mlm.h>
+#include <fty_log.h>
+#include <ftyproto.h>
+#include <fty/convert.h>
 
 namespace fty {
     BasicAsset::BasicAsset ()
@@ -541,7 +543,7 @@ namespace fty {
 
     ExtendedAsset::ExtendedAsset (const std::string & id, const std::string & status, const std::string & type, const std::string & subtype, const std::string & name,
             const std::string & parent_id, int priority)
-            : BasicAsset (id, status, type, subtype), name_(name), parent_id_(parent_id), priority_(priority)
+            : BasicAsset (id, status, type, subtype), name_(name), parent_id_(parent_id), priority_(static_cast<uint8_t>(priority))
     { }
 
     ExtendedAsset::ExtendedAsset (const std::string & id, const std::string & status, const std::string & type, const std::string & subtype, const std::string & name,
@@ -555,7 +557,7 @@ namespace fty {
     {
         name_ = fty_proto_ext_string (msg, "name", fty_proto_name (msg));
         parent_id_ = fty_proto_aux_string (msg, "parent_name.1", "");
-        priority_ = fty_proto_aux_number (msg, "priority", 5);
+        priority_ = static_cast<uint8_t>(fty_proto_aux_number (msg, "priority", 5));
     }
 
     ExtendedAsset::ExtendedAsset (const cxxtools::SerializationInfo & si)
@@ -652,12 +654,12 @@ namespace fty {
 
     void ExtendedAsset::setPriority (int priority)
     {
-        priority_ = priority;
+        priority_ = static_cast<uint8_t>(priority);
     }
 
     void ExtendedAsset::setPriority (const std::string & priority)
     {
-        priority_ = priority[1] - '0';
+        priority_ = fty::convert<uint8_t>(priority);
     }
 
     FullAsset::FullAsset()
@@ -868,7 +870,7 @@ namespace fty {
             fty_proto_aux_string (msg, "subtype", ""),
             fty_proto_ext_string (msg, "name", fty_proto_name (msg)),
             fty_proto_aux_string (msg, "parent_name.1", ""),
-            fty_proto_aux_number (msg, "priority", 5)));
+            static_cast<int>(fty_proto_aux_number (msg, "priority", 5))));
     }
 
     std::unique_ptr<FullAsset> getFullAssetFromFtyProto (fty_proto_t *msg)
@@ -885,7 +887,7 @@ namespace fty {
             fty_proto_aux_string (msg, "subtype", ""),
             fty_proto_ext_string (msg, "name", fty_proto_name (msg)),
             fty_proto_aux_string (msg, "parent_name.1", ""),
-            fty_proto_aux_number (msg, "priority", 5),
+            static_cast<uint8_t>(fty_proto_aux_number (msg, "priority", 5)),
             MlmUtils::zhash_to_map (aux),
             MlmUtils::zhash_to_map (ext))
             );
@@ -939,7 +941,7 @@ namespace fty {
 #define SELFTEST_DIR_RW "src/selftest-rw"
 
 void
-fty_common_asset_test (bool verbose)
+fty_common_asset_test (bool /* verbose */)
 {
     printf (" * fty_common_asset: ");
 

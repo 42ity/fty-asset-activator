@@ -22,8 +22,14 @@
 #ifndef LIBFTY_ASSET_ACTIVATOR_H_INCLUDED
 #define LIBFTY_ASSET_ACTIVATOR_H_INCLUDED
 
+#include <string>
+#include <vector>
+
 namespace fty
 {
+    class FullAsset;
+    class SyncClient;
+
     class AssetActivator
     {
     public:

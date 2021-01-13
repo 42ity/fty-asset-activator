@@ -26,7 +26,13 @@
 @end
 */
 
-#include "fty_asset_activator_classes.h"
+#include "libfty_asset_activator.h"
+
+#include "fty_asset_activator.h"
+#include "fty_common_asset.h"
+
+#include <fty_common_mlm.h>
+#include <fty_log.h>
 
 namespace fty {
 

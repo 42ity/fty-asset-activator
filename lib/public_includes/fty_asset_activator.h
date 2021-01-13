@@ -22,9 +22,6 @@
 #ifndef FTY_ASSET_ACTIVATOR_H_H_INCLUDED
 #define FTY_ASSET_ACTIVATOR_H_H_INCLUDED
 
-//  Include the project library file
-#include "fty_asset_activator_library.h"
-
 //  Add your own public definitions here, if you need them
 #define IS_ASSET_ACTIVE     "GET_IS_ASSET_ACTIVE"
 #define ACTIVATE_ASSET      "ACTIVATE_ASSET"
