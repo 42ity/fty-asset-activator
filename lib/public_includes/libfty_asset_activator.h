@@ -42,12 +42,16 @@ namespace fty
 
         bool isActive (const std::string& assetJson) const;
         bool isActive (const fty::FullAsset& asset) const;
+        bool isActiveIname (const std::string& iname) const;
         void activate (const std::string& assetJson) const;
         void activate (const fty::FullAsset& asset) const;
+        void activateIname (const std::string& iname) const;
         void deactivate (const std::string& assetJson) const;
         void deactivate (const fty::FullAsset& asset) const;
+        void deactivateIname (const std::string& iname) const;
         bool isActivable (const std::string& assetJson) const;
         bool isActivable (const fty::FullAsset& asset) const;
+        bool isActivableIname (const std::string& iname) const;
 
     private:
         fty::SyncClient & m_requestClient;

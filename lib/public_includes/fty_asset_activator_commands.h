@@ -1,5 +1,5 @@
 /*  =========================================================================
-    fty-asset-activator - Library providing asset activation/deactivation functionality
+    fty-asset-activator-commands - Supported commands
     Copyright (C) 2019 - 2020 Eaton
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -15,11 +15,10 @@
     =========================================================================
 */
 
-#ifndef FTY_ASSET_ACTIVATOR_H_H_INCLUDED
-#define FTY_ASSET_ACTIVATOR_H_H_INCLUDED
+#pragma once
 
-//  Include the project library file
-#include "fty_asset_activator_library.h"
-#include "fty_asset_activator_commands.h"
-
-#endif
+//  Add your own public definitions here, if you need them
+#define IS_ASSET_ACTIVE     "GET_IS_ASSET_ACTIVE"
+#define ACTIVATE_ASSET      "ACTIVATE_ASSET"
+#define DEACTIVATE_ASSET    "DEACTIVATE_ASSET"
+#define IS_ASSET_ACTIVABLE  "GET_IS_ASSET_ACTIVABLE"
