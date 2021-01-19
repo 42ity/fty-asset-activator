@@ -20,7 +20,6 @@ void help()
 
 int getOption(const std::string& op)
 {
-    // if(std::strcmp(op.c_str(), "activate")) {
     if(op == "activate") {
         return 1;
     } else if(op == "deactivate") {
