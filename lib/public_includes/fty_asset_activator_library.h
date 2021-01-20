@@ -84,7 +84,7 @@ typedef struct _libfty_asset_activator_t libfty_asset_activator_t;
 
 
 //  Public classes, each with its own header file
-#include "fty_common_asset.h"
+#include <fty_common_asset.h>
 #include "libfty_asset_activator.h"
 
 #ifdef FTY_ASSET_ACTIVATOR_BUILD_DRAFT_API

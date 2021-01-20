@@ -22,8 +22,15 @@
 #ifndef LIBFTY_ASSET_ACTIVATOR_H_INCLUDED
 #define LIBFTY_ASSET_ACTIVATOR_H_INCLUDED
 
+#include <list>
+#include <string>
+#include <vector>
+
 namespace fty
 {
+    class FullAsset;
+    class SyncClient;
+
     class AssetActivator
     {
     public:
@@ -36,12 +43,16 @@ namespace fty
 
         bool isActive (const std::string& assetJson) const;
         bool isActive (const fty::FullAsset& asset) const;
+        bool isActiveIname (const std::string& iname) const;
         void activate (const std::string& assetJson) const;
         void activate (const fty::FullAsset& asset) const;
+        void activateIname (const std::list<std::string>& inamesList) const;
         void deactivate (const std::string& assetJson) const;
         void deactivate (const fty::FullAsset& asset) const;
+        void deactivateIname (const std::list<std::string>& inamesList) const;
         bool isActivable (const std::string& assetJson) const;
         bool isActivable (const fty::FullAsset& asset) const;
+        bool isActivableIname (const std::string& iname) const;
 
     private:
         fty::SyncClient & m_requestClient;
