@@ -31,8 +31,10 @@
 #include "fty_asset_activator_commands.h"
 #include "fty_common_asset.h"
 
+#include <cxxtools/serializationinfo.h>
 #include <fty_asset_dto.h>
 #include <fty_asset_accessor.h>
+#include <fty_common.h>
 #include <fty_common_mlm.h>
 #include <fty_log.h>
 
@@ -88,14 +90,13 @@ namespace fty {
         activate (asset.toJson());
     }
 
-    void AssetActivator::activateIname (const std::string& iname) const
+    void AssetActivator::activateIname (const std::list<std::string>& inamesList) const
     {
-        auto asset = AssetAccessor::getAsset(iname);
-        if(!asset) {
-            throw std::runtime_error(asset.error());
-        }
-        
-        activate(Asset::toFullAsset(asset.value()).toJson());
+        cxxtools::SerializationInfo si;
+        si <<= inamesList;
+   
+        std::vector<std::string> payload;
+        payload = sendCommand ("ACTIVATE_ASSET_INAME", {JSON::writeToString(si, false)});
     }
 
     void AssetActivator::deactivate(const std::string & assetJson) const
@@ -109,14 +110,13 @@ namespace fty {
         deactivate (asset.toJson());
     }
 
-    void AssetActivator::deactivateIname (const std::string& iname) const
+    void AssetActivator::deactivateIname (const std::list<std::string>& inamesList) const
     {
-        auto asset = AssetAccessor::getAsset(iname);
-        if(!asset) {
-            throw std::runtime_error(asset.error());
-        }
-        
-        deactivate(Asset::toFullAsset(asset.value()).toJson());
+        cxxtools::SerializationInfo si;
+        si <<= inamesList;
+   
+        std::vector<std::string> payload;
+        payload = sendCommand ("DEACTIVATE_ASSET_INAME", {JSON::writeToString(si, false)});
     }
 
     bool AssetActivator::isActivable(const std::string & assetJson) const

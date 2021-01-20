@@ -28,6 +28,7 @@ etn_target(shared ${PROJECT_NAME}
         cxxtools
         czmq
         fty-asset-accessor
+        fty_common
         fty_common_logging
         fty_common_mlm
         fty_proto

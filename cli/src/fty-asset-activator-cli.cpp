@@ -3,72 +3,87 @@
 #include <fty_common_mlm.h>
 
 #include <cstring>
+#include <list>
 #include <string>
 #include <iostream>
 
 using namespace fty;
 
-void help()
+void help ()
 {
-    std::cout << "Usage: ./fty_asset_activator_cli <command> <asset iname>" << std::endl;
+    std::cout << "Usage: ./fty_asset_activator_cli <command> <iname> [<iname2> "
+                 "... <inameN>]"
+              << std::endl;
     std::cout << "Available commands:" << std::endl;
-    std::cout << "\t- activate" << std::endl;
-    std::cout << "\t- deactivate" << std::endl;
-    std::cout << "\t- isactive" << std::endl;
-    std::cout << "\t- isactivable" << std::endl;
+    std::cout << "\t- activate <iname1> [<iname2> ... <inameN>]" << std::endl;
+    std::cout << "\t- deactivate <iname> [<iname2> ... <inameN>]" << std::endl;
+    std::cout << "\t- isactive <iname>" << std::endl;
+    std::cout << "\t- isactivable <iname>" << std::endl;
 }
 
-int getOption(const std::string& op)
+int getOption (const std::string &op)
 {
-    if(op == "activate") {
+    if (op == "activate") {
         return 1;
-    } else if(op == "deactivate") {
+    } else if (op == "deactivate") {
         return 2;
-    } else if(op == "isactive") {
+    } else if (op == "isactive") {
         return 3;
-    } else if(op == "isactivable") {
+    } else if (op == "isactivable") {
         return 4;
     }
 
     return 0;
 }
 
-int main(int argc, char** argv)
+int main (int argc, char **argv)
 {
-    if(argc < 3) {
+    if (argc < 3) {
         std::cout << "Invalid number of arguments" << std::endl;
-        help();
+        help ();
 
         return 1;
     }
 
-    std::string op(argv[1]);
-    std::string iname(argv[2]);
+    std::string op (argv[1]);
 
-    mlm::MlmSyncClient  client("asset-agent", "etn-licensing-credits");
-    AssetActivator activator(client);
- 
+    std::list<std::string> inames;
+    for (int count = 2; count < argc; count++) {
+        inames.push_back (std::string (argv[count]));
+    }
+
+    mlm::MlmSyncClient client ("asset-agent", "etn-licensing-credits");
+    AssetActivator activator (client);
+
     bool ret;
 
-    switch(getOption(op)) {
-        case 1:
-            activator.activateIname(iname);
-            break;
-        case 2:
-            activator.deactivateIname(iname);
-            break;
-        case 3:
-            ret = activator.isActiveIname(iname);
-            std::cout << "Asset " << iname << (ret ? " is active" : " is not active") << std::endl;
-            break;
-        case 4:
-            ret = activator.isActivableIname(iname);
-            std::cout << "Asset " << iname << (ret ? " is activable" : " is not activable") << std::endl;
-            break;
-        default:
-            std::cout << "Invalid option" << std::endl;
-            help();
-            break;
+    try {
+        switch (getOption (op)) {
+            case 1:
+                activator.activateIname (inames);
+                break;
+            case 2:
+                activator.deactivateIname (inames);
+                break;
+            case 3:
+                ret = activator.isActiveIname (inames.front ());
+                std::cout << "Asset " << inames.front ()
+                          << (ret ? " is active" : " is not active")
+                          << std::endl;
+                break;
+            case 4:
+                ret = activator.isActivableIname (inames.front ());
+                std::cout << "Asset " << inames.front ()
+                          << (ret ? " is activable" : " is not activable")
+                          << std::endl;
+                break;
+            default:
+                std::cout << "Invalid option" << std::endl;
+                help ();
+                break;
+        }
+    } catch (const std::exception& e) {
+        std::cout << e.what() << std::endl;
     }
 
     return 0;
