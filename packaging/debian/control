@@ -24,6 +24,8 @@ Maintainer:     fty-asset-activator Developers <eatonipcopensource@eaton.com>
 Standards-Version: 4.0.1.0
 Build-Depends: debhelper (>= 9),
     pkg-config,
+    fty-cmake-dev,
+    fty-utils-dev,
     libsodium-dev,
     libzmq3-dev,
     libczmq-dev (>= 3.0.2),
@@ -32,6 +34,8 @@ Build-Depends: debhelper (>= 9),
     libfty-proto-dev (>= 1.0.0),
     libcxxtools-dev,
     libfty-common-mlm-dev,
+    libfty-common-messagebus-dev,
+    gcc (>= 4.9.0), g++ (>= 4.9.0),
     asciidoc-base | asciidoc, xmlto,
     dh-autoreconf
 
