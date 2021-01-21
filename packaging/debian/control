@@ -26,22 +26,27 @@ Build-Depends: debhelper (>= 9),
     pkg-config,
     fty-cmake-dev,
     fty-utils-dev,
+    libcxxtools-dev,
+    libczmq-dev (>= 3.0.2),
+    libfty-asset-dev,
+    libfty-asset-accessor-dev,
+    libfty-common-logging-dev,
+    libfty-common-messagebus-dev,
+    libfty-common-mlm-dev,
+    libfty-proto-dev (>= 1.0.0),
+    libmlm-dev (>= 1.0.0),
     libsodium-dev,
     libzmq3-dev,
-    libczmq-dev (>= 3.0.2),
-    libmlm-dev (>= 1.0.0),
-    libfty-common-logging-dev,
-    libfty-proto-dev (>= 1.0.0),
-    libcxxtools-dev,
-    libfty-common-mlm-dev,
-    libfty-common-messagebus-dev,
     gcc (>= 4.9.0), g++ (>= 4.9.0),
     asciidoc-base | asciidoc, xmlto,
     dh-autoreconf
 
 Package: libfty-asset-activator1
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends:
+    ${shlibs:Depends},
+    ${misc:Depends},
+    libfty-asset-dev
 Description: fty-asset-activator shared library
  This package contains shared library for fty-asset-activator:
  library providing asset activation/deactivation functionality
@@ -51,14 +56,7 @@ Architecture: any
 Section: libdevel
 Depends:
     ${misc:Depends},
-    libsodium-dev,
-    libzmq3-dev,
-    libczmq-dev (>= 3.0.2),
-    libmlm-dev (>= 1.0.0),
-    libfty-common-logging-dev,
-    libfty-proto-dev (>= 1.0.0),
-    libcxxtools-dev,
-    libfty-common-mlm-dev,
+    libfty-asset-dev,
     libfty-asset-activator1 (= ${binary:Version})
 Description: fty-asset-activator development tools
  This package contains development files for fty-asset-activator:
