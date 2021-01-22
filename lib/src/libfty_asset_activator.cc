@@ -29,12 +29,12 @@
 #include "libfty_asset_activator.h"
 
 #include "fty_asset_activator_commands.h"
-#include "fty_common_asset.h"
 
 #include <cxxtools/serializationinfo.h>
 #include <fty_asset_dto.h>
 #include <fty_asset_accessor.h>
 #include <fty_common.h>
+#include <fty_common_asset.h>
 #include <fty_common_mlm.h>
 #include <fty_log.h>
 

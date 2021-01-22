@@ -1,4 +1,3 @@
 usr/include/*
-usr/lib/*/libfty_asset_activator.so
 usr/lib/*/pkgconfig/*fty_asset_activator.pc
 usr/bin/fty-asset-activator-cli
