@@ -23,56 +23,54 @@
 ################################################################################
     =========================================================================
 */
-
-#ifndef FTY_ASSET_ACTIVATOR_LIBRARY_H_INCLUDED
-#define FTY_ASSET_ACTIVATOR_LIBRARY_H_INCLUDED
+#pragma once
 
 //  Set up environment for the application
 
 //  External dependencies
+#include <cxxtools/allocator.h>
 #include <czmq.h>
-#include <malamute.h>
+#include <fty_common_mlm.h>
 #include <fty_log.h>
 #include <ftyproto.h>
-#include <cxxtools/allocator.h>
-#include <fty_common_mlm.h>
+#include <malamute.h>
 
 //  FTY_ASSET_ACTIVATOR version macros for compile-time API detection
 #define FTY_ASSET_ACTIVATOR_VERSION_MAJOR 1
 #define FTY_ASSET_ACTIVATOR_VERSION_MINOR 0
 #define FTY_ASSET_ACTIVATOR_VERSION_PATCH 0
 
-#define FTY_ASSET_ACTIVATOR_MAKE_VERSION(major, minor, patch) \
-    ((major) * 10000 + (minor) * 100 + (patch))
-#define FTY_ASSET_ACTIVATOR_VERSION \
-    FTY_ASSET_ACTIVATOR_MAKE_VERSION(FTY_ASSET_ACTIVATOR_VERSION_MAJOR, FTY_ASSET_ACTIVATOR_VERSION_MINOR, FTY_ASSET_ACTIVATOR_VERSION_PATCH)
+#define FTY_ASSET_ACTIVATOR_MAKE_VERSION(major, minor, patch) ((major)*10000 + (minor)*100 + (patch))
+#define FTY_ASSET_ACTIVATOR_VERSION                                                                                    \
+    FTY_ASSET_ACTIVATOR_MAKE_VERSION(                                                                                  \
+        FTY_ASSET_ACTIVATOR_VERSION_MAJOR, FTY_ASSET_ACTIVATOR_VERSION_MINOR, FTY_ASSET_ACTIVATOR_VERSION_PATCH)
 
-#if defined (__WINDOWS__)
-#   if defined FTY_ASSET_ACTIVATOR_STATIC
-#       define FTY_ASSET_ACTIVATOR_EXPORT
-#   elif defined FTY_ASSET_ACTIVATOR_INTERNAL_BUILD
-#       if defined DLL_EXPORT
-#           define FTY_ASSET_ACTIVATOR_EXPORT __declspec(dllexport)
-#       else
-#           define FTY_ASSET_ACTIVATOR_EXPORT
-#       endif
-#   elif defined FTY_ASSET_ACTIVATOR_EXPORTS
-#       define FTY_ASSET_ACTIVATOR_EXPORT __declspec(dllexport)
-#   else
-#       define FTY_ASSET_ACTIVATOR_EXPORT __declspec(dllimport)
-#   endif
-#   define FTY_ASSET_ACTIVATOR_PRIVATE
-#elif defined (__CYGWIN__)
-#   define FTY_ASSET_ACTIVATOR_EXPORT
-#   define FTY_ASSET_ACTIVATOR_PRIVATE
+#if defined(__WINDOWS__)
+#if defined FTY_ASSET_ACTIVATOR_STATIC
+#define FTY_ASSET_ACTIVATOR_EXPORT
+#elif defined FTY_ASSET_ACTIVATOR_INTERNAL_BUILD
+#if defined   DLL_EXPORT
+#define FTY_ASSET_ACTIVATOR_EXPORT __declspec(dllexport)
 #else
-#   if (defined __GNUC__ && __GNUC__ >= 4) || defined __INTEL_COMPILER
-#       define FTY_ASSET_ACTIVATOR_PRIVATE __attribute__ ((visibility ("hidden")))
-#       define FTY_ASSET_ACTIVATOR_EXPORT __attribute__ ((visibility ("default")))
-#   else
-#       define FTY_ASSET_ACTIVATOR_PRIVATE
-#       define FTY_ASSET_ACTIVATOR_EXPORT
-#   endif
+#define FTY_ASSET_ACTIVATOR_EXPORT
+#endif
+#elif defined FTY_ASSET_ACTIVATOR_EXPORTS
+#define FTY_ASSET_ACTIVATOR_EXPORT __declspec(dllexport)
+#else
+#define FTY_ASSET_ACTIVATOR_EXPORT __declspec(dllimport)
+#endif
+#define FTY_ASSET_ACTIVATOR_PRIVATE
+#elif defined(__CYGWIN__)
+#define FTY_ASSET_ACTIVATOR_EXPORT
+#define FTY_ASSET_ACTIVATOR_PRIVATE
+#else
+#if (defined __GNUC__ && __GNUC__ >= 4) || defined __INTEL_COMPILER
+#define FTY_ASSET_ACTIVATOR_PRIVATE __attribute__((visibility("hidden")))
+#define FTY_ASSET_ACTIVATOR_EXPORT  __attribute__((visibility("default")))
+#else
+#define FTY_ASSET_ACTIVATOR_PRIVATE
+#define FTY_ASSET_ACTIVATOR_EXPORT
+#endif
 #endif
 
 //  Opaque class structures to allow forward references
@@ -84,8 +82,8 @@ typedef struct _libfty_asset_activator_t libfty_asset_activator_t;
 
 
 //  Public classes, each with its own header file
-#include <fty_common_asset.h>
 #include "libfty_asset_activator.h"
+#include <fty_common_asset.h>
 
 #ifdef FTY_ASSET_ACTIVATOR_BUILD_DRAFT_API
 
@@ -94,8 +92,7 @@ extern "C" {
 #endif
 
 //  Self test for private classes
-FTY_ASSET_ACTIVATOR_EXPORT void
-    fty_asset_activator_private_selftest (bool verbose, const char *subtest);
+FTY_ASSET_ACTIVATOR_EXPORT void fty_asset_activator_private_selftest(bool verbose, const char* subtest);
 
 #ifdef __cplusplus
 }

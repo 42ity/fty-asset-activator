@@ -1,15 +1,14 @@
-#include <libfty_asset_activator.h>
+#include <cstring>
 #include <fty/convert.h>
 #include <fty_common_mlm.h>
-
-#include <cstring>
+#include <iostream>
+#include <libfty_asset_activator.h>
 #include <list>
 #include <string>
-#include <iostream>
 
 using namespace fty;
 
-void help ()
+void help()
 {
     std::cout << "Usage: ./fty_asset_activator_cli <command> <iname> [<iname2> "
                  "... <inameN>]"
@@ -21,7 +20,7 @@ void help ()
     std::cout << "\t- isactivable <iname>" << std::endl;
 }
 
-int getOption (const std::string &op)
+int getOption(const std::string& op)
 {
     if (op == "activate") {
         return 1;
@@ -36,50 +35,46 @@ int getOption (const std::string &op)
     return 0;
 }
 
-int main (int argc, char **argv)
+int main(int argc, char** argv)
 {
     if (argc < 3) {
         std::cout << "Invalid number of arguments" << std::endl;
-        help ();
+        help();
 
         return 1;
     }
 
-    std::string op (argv[1]);
+    std::string op(argv[1]);
 
     std::list<std::string> inames;
     for (int count = 2; count < argc; count++) {
-        inames.push_back (std::string (argv[count]));
+        inames.push_back(std::string(argv[count]));
     }
 
-    mlm::MlmSyncClient client ("asset-agent", "etn-licensing-credits");
-    AssetActivator activator (client);
+    mlm::MlmSyncClient client("asset-agent", "etn-licensing-credits");
+    AssetActivator     activator(client);
 
     bool ret;
 
     try {
-        switch (getOption (op)) {
+        switch (getOption(op)) {
             case 1:
-                activator.activateIname (inames);
+                activator.activateIname(inames);
                 break;
             case 2:
-                activator.deactivateIname (inames);
+                activator.deactivateIname(inames);
                 break;
             case 3:
-                ret = activator.isActiveIname (inames.front ());
-                std::cout << "Asset " << inames.front ()
-                          << (ret ? " is active" : " is not active")
-                          << std::endl;
+                ret = activator.isActiveIname(inames.front());
+                std::cout << "Asset " << inames.front() << (ret ? " is active" : " is not active") << std::endl;
                 break;
             case 4:
-                ret = activator.isActivableIname (inames.front ());
-                std::cout << "Asset " << inames.front ()
-                          << (ret ? " is activable" : " is not activable")
-                          << std::endl;
+                ret = activator.isActivableIname(inames.front());
+                std::cout << "Asset " << inames.front() << (ret ? " is activable" : " is not activable") << std::endl;
                 break;
             default:
                 std::cout << "Invalid option" << std::endl;
-                help ();
+                help();
                 break;
         }
     } catch (const std::exception& e) {
