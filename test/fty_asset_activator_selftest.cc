@@ -27,8 +27,9 @@
     =========================================================================
 */
 
-// #include "../include/fty_asset_activator.h"
-#include "public_includes/fty_asset_activator.h"
+#include "fty_asset_activator.h" 
+#include <fty_common_mlm.h>
+#include <fty_common_asset.h>
 
 typedef struct
 {

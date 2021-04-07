@@ -23,21 +23,9 @@ if(BUILD_TESTING)
         SOURCES
             test/fty_asset_activator_private_selftest.cc
             test/fty_asset_activator_selftest.cc
-            lib/public_includes/fty_asset_activator.h
-        INCLUDE_DIRS
-            lib
         USES
-            ${PROJECT_NAME}-static
-            czmq
-            cxxtools  # cxxtools cannot be use as public because we do not have the cmake package yet
-            fty_common
-            fty_common_logging
-            fty_proto
-            fty_common_mlm
-            fty_common_translation
-            mlm
-            magic
-            fty-utils
+            ${PROJECT_NAME}
+            cxxtools
     )
 
     

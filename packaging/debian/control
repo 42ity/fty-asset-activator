@@ -23,8 +23,6 @@ Priority:       optional
 Maintainer:     fty-asset-activator Developers <eatonipcopensource@eaton.com>
 Standards-Version: 4.0.1.0
 Build-Depends: debhelper (>= 9),
-    cmake (>=3.0),
-    fty-cmake-dev,
     pkg-config,
     fty-cmake-dev,
     libfty-utils-dev,
@@ -43,7 +41,7 @@ Build-Depends: debhelper (>= 9),
     asciidoc-base | asciidoc, xmlto,
     dh-autoreconf
 
-Package: fty-asset-activator
+Package: libfty-asset-activator1
 Architecture: any
 Depends:
     ${shlibs:Depends},
@@ -52,3 +50,24 @@ Description: fty-asset-activator shared library
  This package contains shared library for fty-asset-activator:
  library providing asset activation/deactivation functionality
 
+Package: libfty-asset-activator-dev
+Architecture: any
+Section: libdevel
+Depends:
+    ${misc:Depends},
+    libfty-asset-accessor-dev,
+    libfty-asset-activator1 (= ${binary:Version})
+Description: fty-asset-activator development tools
+ This package contains development files for fty-asset-activator:
+ library providing asset activation/deactivation functionality
+
+Package: fty-asset-activator-dbg
+Architecture: any
+Section: debug
+Priority: optional
+Depends:
+    libfty-asset-activator1 (= ${binary:Version}),
+    ${misc:Depends}
+Description: fty-asset-activator debugging symbols
+ This package contains the debugging symbols for fty-asset-activator:
+ library providing asset activation/deactivation functionality.

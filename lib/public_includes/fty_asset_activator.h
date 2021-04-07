@@ -17,5 +17,5 @@
 #pragma once
 
 //  Include the project library file
-// #include "fty_asset_activator_library.h"
+#include "fty_asset_activator_library.h"
 #include "fty_asset_activator_commands.h"
