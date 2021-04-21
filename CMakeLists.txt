@@ -15,20 +15,27 @@ add_subdirectory(cli)
 
 ##############################################################################################################
 
-if(BUILD_TESTING)
-    enable_testing()
+# if(BUILD_TESTING)
+#     enable_testing()
 
-    # Create a target for the tests
-    etn_test(${PROJECT_NAME}-test
-        SOURCES
-            test/fty_asset_activator_private_selftest.cc
-            test/fty_asset_activator_selftest.cc
-        USES
-            ${PROJECT_NAME}
-            cxxtools
-    )
+#     # Create a target for the tests
+#     etn_test(${PROJECT_NAME}-test
+#         SOURCES
+#             test/fty_asset_activator_private_selftest.cc
+#             test/fty_asset_activator_selftest.cc
+#         USES
+#             ${PROJECT_NAME}
+#             cxxtools
+#     )
 
     
-endif()
+# endif()
+
+etn_test_target(${PROJECT_NAME}-cli
+    SOURCES
+        test/main.cpp
+    USES
+        cxxtools
+)
 
 ##############################################################################################################
