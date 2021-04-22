@@ -31,11 +31,11 @@ add_subdirectory(cli)
     
 # endif()
 
-etn_test_target(${PROJECT_NAME}-cli
-    SOURCES
-        test/main.cpp
-    USES
-        cxxtools
-)
+# etn_test_target(${PROJECT_NAME}-cli
+#     SOURCES
+#         test/main.cpp
+#     USES
+#         cxxtools
+# )
 
 ##############################################################################################################

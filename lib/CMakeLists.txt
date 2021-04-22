@@ -35,4 +35,11 @@ etn_target(shared ${PROJECT_NAME}
         mlm
 )
 
+etn_test_target(${PROJECT_NAME}
+    SOURCES
+        test/main.cpp
+    USES
+        cxxtools
+)
+
 ##############################################################################################################
