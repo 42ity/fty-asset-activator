@@ -36,6 +36,7 @@ etn_target(shared ${PROJECT_NAME}
         libzmq
         libsodium
         mlm
+        tntdb
 )
 
 etn_test_target(${PROJECT_NAME}
