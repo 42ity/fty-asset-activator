@@ -53,3 +53,14 @@ Depends:
 Description: fty-asset-activator shared library
  This package contains shared library for fty-asset-activator:
  library providing asset activation/deactivation functionality
+
+Package: libfty-asset-activator-dev
+Architecture: any
+Section: libdevel
+Depends:
+    ${misc:Depends},
+    libfty-asset-accessor-dev,
+    libfty-asset-activator1 (= ${binary:Version})
+Description: fty-asset-activator development tools
+ This package contains development files for fty-asset-activator:
+ library providing asset activation/deactivation functionality
