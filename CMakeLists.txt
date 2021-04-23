@@ -8,7 +8,7 @@ cmake_policy(VERSION 3.13)
 # )
 
 ########################################################################################################################
-find_package(fty-cmake PATHS ${CMAKE_BINARY_DIR}/fty-cmake)
+# find_package(fty-cmake PATHS ${CMAKE_BINARY_DIR}/fty-cmake)
 ########################################################################################################################
 
 add_subdirectory(lib)

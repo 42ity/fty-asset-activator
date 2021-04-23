@@ -12,7 +12,7 @@ find_package(fty-cmake PATHS ${CMAKE_BINARY_DIR}/fty-cmake)
 
 ##############################################################################################################
 
-etn_target(exe ${PROJECT_NAME}-cli
+etn_target(exe ${PROJECT_NAME}
     SOURCES
         src/fty-asset-activator-cli.cpp
     USES_PRIVATE
