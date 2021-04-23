@@ -37,6 +37,7 @@ etn_target(shared ${PROJECT_NAME}
         libsodium
         mlm
         tntdb
+        fty_common_db
 )
 
 etn_test_target(${PROJECT_NAME}

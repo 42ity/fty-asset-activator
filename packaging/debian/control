@@ -25,6 +25,8 @@ Standards-Version: 4.0.1.0
 Build-Depends: debhelper (>= 9),
     cmake (>=3.0),
     fty-cmake-dev,
+    libtntdb-dev,
+    libfty-common-db-dev,
     pkg-config,
     fty-cmake-dev,
     libfty-utils-dev,
