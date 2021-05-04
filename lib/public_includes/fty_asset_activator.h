@@ -14,12 +14,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
     =========================================================================
 */
-
-#ifndef FTY_ASSET_ACTIVATOR_H_H_INCLUDED
-#define FTY_ASSET_ACTIVATOR_H_H_INCLUDED
+#pragma once
 
 //  Include the project library file
 #include "fty_asset_activator_library.h"
 #include "fty_asset_activator_commands.h"
-
-#endif

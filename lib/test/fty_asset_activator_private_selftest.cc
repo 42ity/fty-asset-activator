@@ -27,15 +27,12 @@
     =========================================================================
 */
 
-#include "fty_asset_activator_classes.h"
-
 
 //  -------------------------------------------------------------------------
 //  Run all private classes tests.
 //
 
-void
-fty_asset_activator_private_selftest (bool verbose, const char *subtest)
+void fty_asset_activator_private_selftest(bool /* verbose */, const char* /* subtest */)
 {
 }
 /*
