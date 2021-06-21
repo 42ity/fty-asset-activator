@@ -16,8 +16,10 @@ etn_target(exe ${PROJECT_NAME}
     SOURCES
         src/fty-asset-activator-cli.cpp
     USES_PRIVATE
-        cxxtools
         fty_asset_activator
+        fty_common
         fty_common_mlm
+        fty_common_logging
         fty-utils
+        czmq
 )

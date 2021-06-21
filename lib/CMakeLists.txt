@@ -20,24 +20,16 @@ etn_target(shared ${PROJECT_NAME}
     PUBLIC
         fty_asset_activator.h
         fty_asset_activator_commands.h
-        fty_asset_activator_library.h
         libfty_asset_activator.h
     USES_PUBLIC
         fty-asset
     USES_PRIVATE
         cxxtools
-        czmq
         fty-asset-accessor
         fty_common
         fty_common_logging
         fty_common_mlm
-        fty_proto
         fty-utils
-        libzmq
-        libsodium
-        mlm
-        tntdb
-        fty_common_db
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION_MAJOR})
@@ -45,8 +37,8 @@ set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION_MAJ
 etn_test_target(${PROJECT_NAME}
     SOURCES
         test/main.cpp
-    USES
-        cxxtools
+    SUBDIR
+        test
 )
 
 ##############################################################################################################

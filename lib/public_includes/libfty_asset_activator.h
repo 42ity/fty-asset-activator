@@ -32,11 +32,9 @@ class SyncClient;
 class AssetActivator
 {
 public:
-    /**
-     * @brief Construct a new Accessor object
-     *
-     * @param Object implementing fty::SyncClient
-     */
+    /// Construct a new Accessor object
+    ///
+    /// @param Object implementing fty::SyncClient
     explicit AssetActivator(fty::SyncClient& requestClient);
 
     bool isActive(const std::string& assetJson) const;
