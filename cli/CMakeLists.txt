@@ -21,5 +21,6 @@ etn_target(exe ${PROJECT_NAME}
         fty_common_mlm
         fty_common_logging
         fty-utils
+        fty_proto
         czmq
 )
