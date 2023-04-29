@@ -1,3 +1,24 @@
+/*  =========================================================================
+    fty_asset_activator-cli - CLI over libfty-asset-activator
+
+    Copyright (C) 2019 - 2020 Eaton
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+    =========================================================================
+*/
+
 #include <cstring>
 #include <fty/convert.h>
 #include <fty_common_mlm.h>
@@ -6,9 +27,7 @@
 #include <list>
 #include <string>
 
-using namespace fty;
-
-void help()
+static void usage()
 {
     std::cout << "Usage: ./fty_asset_activator_cli <command> <iname> [<iname2> "
                  "... <inameN>]"
@@ -20,66 +39,47 @@ void help()
     std::cout << "\t- isactivable <iname>" << std::endl;
 }
 
-int getOption(const std::string& op)
+int main(int argc, const char* argv[])
 {
-    if (op == "activate") {
-        return 1;
-    } else if (op == "deactivate") {
-        return 2;
-    } else if (op == "isactive") {
-        return 3;
-    } else if (op == "isactivable") {
-        return 4;
+    if (argc <= 2) {
+        std::cerr << "Invalid number of arguments" << std::endl;
+        usage();
+        return EXIT_FAILURE;
     }
 
-    return 0;
-}
-
-int main(int argc, char** argv)
-{
-    if (argc < 3) {
-        std::cout << "Invalid number of arguments" << std::endl;
-        help();
-
-        return 1;
-    }
-
-    std::string op(argv[1]);
+    std::string command(argv[1]);
 
     std::list<std::string> inames;
     for (int count = 2; count < argc; count++) {
-        inames.push_back(std::string(argv[count]));
+        inames.push_back(argv[count]);
     }
 
-    mlm::MlmSyncClient client("asset-agent", "etn-licensing-credits");
-    AssetActivator     activator(client);
-
-    bool ret;
+    mlm::MlmSyncClient client("asset-activator-cli", "etn-licensing-credits");
+    fty::AssetActivator activator(client);
 
     try {
-        switch (getOption(op)) {
-            case 1:
-                activator.activateIname(inames);
-                break;
-            case 2:
-                activator.deactivateIname(inames);
-                break;
-            case 3:
-                ret = activator.isActiveIname(inames.front());
-                std::cout << "Asset " << inames.front() << (ret ? " is active" : " is not active") << std::endl;
-                break;
-            case 4:
-                ret = activator.isActivableIname(inames.front());
-                std::cout << "Asset " << inames.front() << (ret ? " is activable" : " is not activable") << std::endl;
-                break;
-            default:
-                std::cout << "Invalid option" << std::endl;
-                help();
-                break;
+        if (command == "activate") {
+            activator.activateIname(inames);
         }
-    } catch (const std::exception& e) {
-        std::cout << e.what() << std::endl;
+        else if (command == "deactivate") {
+            activator.deactivateIname(inames);
+        }
+        else if (command == "isactive") {
+            bool ret = activator.isActiveIname(inames.front());
+            std::cout << "Asset " << inames.front() << (ret ? " is active" : " is not active") << std::endl;
+        }
+        else if (command == "isactivable") {
+            bool ret = activator.isActivableIname(inames.front());
+            std::cout << "Asset " << inames.front() << (ret ? " is activable" : " is not activable") << std::endl;
+        }
+        else {
+            std::cerr << "Invalid command (" << command << ")" << std::endl;
+            usage();
+        }
+    }
+    catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
