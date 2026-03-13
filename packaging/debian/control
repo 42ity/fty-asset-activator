@@ -25,16 +25,14 @@ Standards-Version: 4.0.1.0
 Build-Depends: debhelper (>= 9),
     cmake (>=3.0),
     fty-cmake-dev,
-    fty-cmake-dev,
     libfty-utils-dev,
     libcxxtools-dev,
     libczmq-dev (>= 3.0.2),
+    libmlm-dev (>= 1.0.0),
     libfty-asset-dev,
     libfty-asset-accessor-dev,
     libfty-common-logging-dev,
-    libfty-common-mlm-dev,
-    libmlm-dev (>= 1.0.0),
-    libzmq3-dev
+    libfty-common-mlm-dev
 
 Package: libfty-asset-activator1
 Architecture: any
